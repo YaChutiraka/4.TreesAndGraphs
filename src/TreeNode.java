@@ -34,7 +34,6 @@ public class TreeNode {
 	
 	public void setItem(Object newItem){
 		item=newItem;
-		System.out.println("newITEM is " + item);
 	}
 	
 	public void setLChild(Object newLChild){
