@@ -1,7 +1,7 @@
 public class TreeNode {
-	private Object item;
-	private Object lChild;
-	private Object rChild;
+	private Integer item; // We do not use generic Object because for a sake of simplicity, we want this to be a comparable key too.
+	private TreeNode lChild;
+	private TreeNode rChild;
 	
 	public TreeNode(){
 		item=null;
@@ -9,38 +9,38 @@ public class TreeNode {
 		rChild=null;
 	}
 	
-	public TreeNode(Object newItem){
+	public TreeNode(Integer newItem){
 		item=newItem;
 		lChild=null;
 		rChild=null;
 	}
 	
-	public TreeNode(Object newItem, Object lChild, Object rChild){
+	public TreeNode(Integer newItem, TreeNode lChild, TreeNode rChild){
 		item=newItem;
 		this.lChild=lChild;
 		this.rChild=rChild;
 	}
-	public Object getItem(){
+	public Integer getItem(){
 		return item;
 	}
 	
-	public Object getLChild(){
+	public TreeNode getLeft(){
 		return lChild;
 	}
 	
-	public Object getRChild(){
+	public TreeNode getRight(){
 		return rChild;
 	}
 	
-	public void setItem(Object newItem){
+	public void setItem(Integer newItem){
 		item=newItem;
 	}
 	
-	public void setLChild(Object newLChild){
+	public void setLeft(TreeNode newLChild){
 		lChild=newLChild;
 	}
 	
-	public void setRChild(Object newRChild){
+	public void setRight(TreeNode newRChild){
 		rChild=newRChild;
 	}
 }
