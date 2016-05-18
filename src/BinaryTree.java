@@ -11,7 +11,7 @@ public class BinaryTree{
 		root=null;
 	}
 	
-	public BinaryTree(int newItem){
+	public BinaryTree(Integer newItem){
 		root=new TreeNode(newItem);
 	}
 	
@@ -23,7 +23,7 @@ public class BinaryTree{
 		return root;
 	}
 	
-	public boolean contains(TreeNode node, int item){
+	public boolean contains(TreeNode node, Integer item){
 		boolean status=false;
 		if(node==null) status=false;
 		else if(item==node.getItem()) status=true;
@@ -39,7 +39,7 @@ public class BinaryTree{
 		return status;
 	}
 	
-	public void insert(TreeNode node, int item){
+	public void insert(TreeNode node, Integer item){
 		if(node==null){
 			newNode=new TreeNode(item);
 			root=newNode;
@@ -59,7 +59,7 @@ public class BinaryTree{
 					insert(node.getRight(), item);
 				}
 			}else{
-				System.out.println("Binary Search Tree cannot have a diprlicated item.");
+				System.out.println("Binary Search Tree cannot have a duplicated item.");
 			}
 		}
 	}
@@ -74,13 +74,98 @@ public class BinaryTree{
 	}
 	
 	public void preOrder(TreeNode node){
-		
+		if(node!=null){
+			System.out.print("("+node.getItem());
+			preOrder(node.getLeft());
+			preOrder(node.getRight());
+			System.out.print(")");
+		}
 	}
 	
 	public void postOrder(TreeNode node){
+		if(node!=null){
+			System.out.print("(");
+			postOrder(node.getLeft());
+			postOrder(node.getRight());
+			System.out.print(")");
+		}
+	}
+	
+	public void inOrderSuccessor(TreeNode node){
+		if(node.getLeft()==null){
+			parent=node;
+			child='r';
+			countLevel=0;
+		}else{
+			parent=node;
+			child='l';
+			countLevel++;
+			inOrderSuccessor(node.getLeft());
+		}
+	}
+	
+	public void preOrderSuccessor(TreeNode node){
 		
 	}
 	
+	public boolean delete(TreeNode node, Integer item){
+		boolean status=false;
+		if(node==null) status=false;
+		else if(contains(node, item)){
+			//contains will also keep track of parent of the node
+			if(item==node.getItem()){
+				//Found the node to delete. Then check if this node is a leaf node or not
+				if(node.getLeft()==null && node.getRight()==null){
+					//this is a leaf node. Easy
+					if(parent!=null){
+						System.out.println("has parent");
+						if(child=='l')parent.setLeft(null);
+						else parent.setRight(null);
+					}else{
+						//this tree has only 1 node to begin with, so it is a root node too
+						root=null;
+					}
+					status=true;
+				}else if(node.getLeft()!=null && node.getRight()!=null){
+					//This node has 2 children
+					//Option 1: Use inOrderSuccessor, which is to find the most left node of the right subtree
+					inOrderSuccessor(node.getRight());
+					//TODO
+					if(countLevel==0){
+						
+					}
+					status=true;
+					//Option 2: Use preOrderSuccessor, which is to find the most right node of the left subtree
+					preOrderSuccessor(node.getLeft());
+					//TODO
+					status=true;
+				}else{
+					//This node has 1 child. Easy
+					if(node.getLeft()!=null){
+						//left child of the node will be moved up
+						if(child=='l') parent.setLeft(node.getLeft());
+						else parent.setRight(node.getLeft());
+					}else{
+						//right child of the node will be moved up
+						if(child=='l') parent.setRight(node.getRight());
+						else parent.setRight(node.getRight());
+					}
+					status=true;
+				}
+			}else if(item<node.getItem()){
+				delete(node.getLeft(), item);
+			}else{
+				delete(node.getRight(), item);
+			}
+		}else{
+			//Throw exception TODO
+			System.out.print("item to delete is not found");
+			status=false;
+		}
+		return status;
+	}
+	
+	//Uncomment this code to test
 	public static void main(String[] args){
 		BinaryTree bst=new BinaryTree();
 		BinaryTree bst_2=new BinaryTree(20);
@@ -96,6 +181,20 @@ public class BinaryTree{
 		bst_2.inOrder(bst_2.getRoot());
 		
 		System.out.println(bst.contains(bst.getRoot(), 4));
+		
+		bst.insert(bst.getRoot(), 3);
+		bst.preOrder(bst.getRoot());
+		bst_2.preOrder(bst_2.getRoot());
+		
+		bst.delete(bst.getRoot(), 5);
+		bst.insert(bst.getRoot(), 4);
+		bst.insert(bst.getRoot(), 5);
+		bst.delete(bst.getRoot(), 3);
+		bst.inOrder(bst.getRoot());
+		
+		BinaryTree bst_3=new BinaryTree(100);
+		bst_3.delete(bst_3.getRoot(), 100);
+		bst_3.inOrder(bst_3.getRoot());
 	}
 }
 
