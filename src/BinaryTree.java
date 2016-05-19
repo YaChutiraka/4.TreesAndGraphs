@@ -26,7 +26,10 @@ public class BinaryTree{
 	public boolean contains(TreeNode node, Integer item){
 		boolean status=false;
 		if(node==null) status=false;
-		else if(item==node.getItem()) status=true;
+		else if(item==node.getItem()) {
+			status=true;
+			deleteNode=node; // because if we are looking some item, it is possible we want to delete that item
+		}
 		else if(item<node.getItem()){
 			parent=node;
 			child='l';
@@ -93,12 +96,15 @@ public class BinaryTree{
 	
 	public void inOrderSuccessor(TreeNode node){
 		if(node.getLeft()==null){
-			parent=node;
-			child='r';
-			countLevel=0;
+			//will not change parent and countLevel
+			int temp=deleteNode.getItem();
+			// switch the item of deleteNode and its found inOrderSuccessor
+			deleteNode.setItem(node.getItem()); 
+			node.setItem(temp);
+			System.out.println("inordersuccessor is "+node.getItem());
+			System.out.println("deletenode is "+deleteNode.getItem());
 		}else{
 			parent=node;
-			child='l';
 			countLevel++;
 			inOrderSuccessor(node.getLeft());
 		}
@@ -130,10 +136,8 @@ public class BinaryTree{
 					//This node has 2 children
 					//Option 1: Use inOrderSuccessor, which is to find the most left node of the right subtree
 					inOrderSuccessor(node.getRight());
+					delete(deleteNode, item);
 					//TODO
-					if(countLevel==0){
-						
-					}
 					status=true;
 					//Option 2: Use preOrderSuccessor, which is to find the most right node of the left subtree
 					preOrderSuccessor(node.getLeft());
@@ -176,6 +180,7 @@ public class BinaryTree{
 		
 		bst_2.insert(bst_2.getRoot(), 50);
 		bst_2.insert(bst_2.getRoot(), 10);
+		bst_2.insert(bst_2.getRoot(), 30);
 		
 		bst.inOrder(bst.getRoot());
 		bst_2.inOrder(bst_2.getRoot());
@@ -189,7 +194,7 @@ public class BinaryTree{
 		bst.delete(bst.getRoot(), 5);
 		bst.insert(bst.getRoot(), 4);
 		bst.insert(bst.getRoot(), 5);
-		bst.delete(bst.getRoot(), 3);
+		//bst.delete(bst.getRoot(), 3);
 		bst.inOrder(bst.getRoot());
 		
 		BinaryTree bst_3=new BinaryTree(100);
