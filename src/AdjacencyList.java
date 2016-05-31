@@ -7,7 +7,7 @@ public class AdjacencyList {
 	
 	public AdjacencyList(int vertices){
 		adjacencyList=new LinkedList[vertices];
-		// TODO
+		// TODO adjacencyList = (LinkedList< Pair<Integer, Integer> >[]) new LinkedList[vertices];
 		
 		for(int i=0; i<adjacencyList.length; i++){
 			adjacencyList[i]=new LinkedList<Pair<Integer, Integer>>();
@@ -26,9 +26,10 @@ public class AdjacencyList {
 		return adjacencyList[startVertext].size();
 	}
 	
-	public LinkedList<Pair<Integer, Integer>> getEdgesFromVertex(int startVertext){
-		LinkedList<Pair<Integer, Integer>> edgeList=new LinkedList(adjacentList[startVertex]);
-				//TODO
+	public LinkedList<Pair<Integer, Integer>> getEdgesFromVertex(int startVertex){
+		LinkedList<Pair<Integer, Integer>> edgeList=new LinkedList(adjacencyList[startVertex]);
+				//TODO LinkedList< Pair<Integer, Integer> > edgeList = (LinkedList< Pair<Integer, Integer> >) new LinkedList(adjacencyList[startVertex]);
+		return edgeList;
 	}
 	
 	public boolean removeEdge(int startVertex, Pair<Integer, Integer> edge){
